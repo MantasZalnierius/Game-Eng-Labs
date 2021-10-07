@@ -1,5 +1,8 @@
 #pragma once
 #include <iostream>
+
+//// PROXY PATTERN
+
 class IGrpahic
 {
 public:
@@ -36,3 +39,5 @@ private:
     };
     std::string m_brickName;
 };
+
+//// PROXY PATTERN

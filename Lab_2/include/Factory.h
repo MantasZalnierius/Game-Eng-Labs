@@ -58,7 +58,7 @@ public:
     std::vector<Brick*> getBricks(int t_numberOfBricks)
     {
         std::vector<Brick*> legoBricks;
-        DrawAPI* drawAPI = new DrawAPIImple("LEGO BRICK");
+        DrawAPI* drawAPI = new VulkanDrawImple("LEGO BRICK");
         for (int i = 0; i < t_numberOfBricks; i++)
         {
             legoBricks.push_back(new Lego(drawAPI));
@@ -75,7 +75,7 @@ public:
     std::vector<Brick*> getBricks(int t_numberOfBricks)
     {
         std::vector<Brick*> plasticBricks;
-        DrawAPI* drawAPI = new DrawAPIImple("PLASTIC BRICK");
+        DrawAPI* drawAPI = new OpenGLDrawImple("PLASTIC BRICK");
         for (int i = 0; i < t_numberOfBricks; i++)
         {
             plasticBricks.push_back(new Plastic(drawAPI));
@@ -92,7 +92,7 @@ public:
     std::vector<Brick*> getBricks(int t_numberOfBricks)
     {
         std::vector<Brick*> concreteBricks;
-        DrawAPI* drawAPI = new DrawAPIImple("CONCRETE BRICK");
+        DrawAPI* drawAPI = new SdlDrawImple("CONCRETE BRICK");
         for (int i = 0; i < t_numberOfBricks; i++)
         {
             concreteBricks.push_back(new Concrete(drawAPI));
