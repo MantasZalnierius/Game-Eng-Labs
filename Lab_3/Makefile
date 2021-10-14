@@ -17,5 +17,5 @@ all			:= build
 
 build:
 	@echo ${MSG_START}
-	${CXX} -o TestFile ${SRC} -I${include} -L${lib} -lmingw32 -lSDL2main -lSDL2
+	${CXX} -o TestFile ${SRC} -I${include} -L${lib} -lmingw32 -lSDL2main -lSDL2 -lSDL2_ttf
 	@echo ${MSG_END}

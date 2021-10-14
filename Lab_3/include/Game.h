@@ -1,6 +1,11 @@
 #pragma once
 #include <SDL.h>
 #include <iostream>
+#include <vector>
+#include "../include/Button.h"
+#include "../include/LegoCommand.h"
+#include "../include/PlasticCommand.h"
+#include "../include/ConcreteCommand.h"
 class Game
 {
 public:
@@ -18,4 +23,7 @@ private:
     SDL_Renderer *m_renderer;
     bool m_isRunning;
     SDL_Event m_eventHandlder;
+    std::vector<Button*> m_buttons;
+    TTF_Font* m_font;
+    MacroCommand m_commands;
 };
