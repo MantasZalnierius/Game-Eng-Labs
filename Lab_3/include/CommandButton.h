@@ -2,15 +2,13 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 #include <iostream>
-#include <functional>
 #include "../include/MacroCommand.h"
-#include <string>
 
-class Button
+class CommandButton
 {
 public:
-    Button() = default;
-    Button(SDL_Renderer* t_renderer,  TTF_Font* t_font, std::string t_name, float t_x, float t_y, float t_w, float t_h, Command* t_command) :
+    CommandButton() = default;
+    CommandButton(SDL_Renderer* t_renderer,  TTF_Font* t_font, std::string t_name, float t_x, float t_y, float t_w, float t_h, Command* t_command) :
         m_renderer(t_renderer), m_font(t_font), m_name(t_name), m_x(t_x), m_y(t_y), m_w(t_w), m_h(t_w)
     {
         m_rectangle.x = m_x;
@@ -31,24 +29,27 @@ public:
 
         m_command = t_command;
     }
-    ~Button() {}
+    ~CommandButton() {}
 
     void render()
     {
         SDL_RenderDrawRect(m_renderer, &m_rectangle);
         SDL_RenderCopy(m_renderer, m_text, NULL, &m_textRect);
-        SDL_RenderCopy(m_renderer, m_counterText, NULL, &m_counterRect);
     }
 
-    void updateText()
+    void clickUndu(MacroCommand* t_macro)
     {
-        setUpCounter(m_renderer, m_font, std::to_string(m_command->getCount()),  m_textX, m_textY);
+        t_macro->undo();
     }
 
-    void click(MacroCommand* t_macro)
+    void clickRedu(MacroCommand* t_macro)
     {
-        t_macro->addCommand(m_command);
-        setUpCounter(m_renderer, m_font , std::to_string(m_command->getCount()),  m_textX, m_textY);
+        t_macro->redu();
+    }
+
+    void clickBuild(MacroCommand* t_macro, std::vector<Brick*>& t_bricks)
+    {
+        t_macro->execute(t_bricks);
     }
 
     int getXPos() { return m_y; }
@@ -59,22 +60,7 @@ public:
 
     int getOrderNumber() {return m_command->getCount();}
 
-    void setUpCounter(SDL_Renderer* t_renderer, TTF_Font* t_font,std::string name,  float t_x, float t_y)
-    {
-        m_textX = t_x;
-        m_textY = t_y;
-
-        SDL_Surface* tempSurf = TTF_RenderText_Solid(t_font, name.c_str(), SDL_Color{255,255,255});
-
-        m_counterText = SDL_CreateTextureFromSurface(m_renderer, tempSurf);
-
-        SDL_QueryTexture(m_counterText, NULL, NULL, &m_counterRect.w, &m_counterRect.h);
-
-        m_counterRect.x = t_x;
-        m_counterRect.y = t_y;
-
-        SDL_FreeSurface(tempSurf);
-    }
+    std::string getName() {return m_name;}
 
 private:
     SDL_Renderer* m_renderer;

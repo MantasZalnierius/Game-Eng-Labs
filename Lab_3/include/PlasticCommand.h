@@ -19,6 +19,7 @@ public:
     virtual void undo()
     {
     }
+    virtual int getCount(){return m_counter;}
 
 private:
     PlasticFactory m_plasticFactory;

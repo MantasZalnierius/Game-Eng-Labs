@@ -6,6 +6,11 @@
 #include "../include/LegoCommand.h"
 #include "../include/PlasticCommand.h"
 #include "../include/ConcreteCommand.h"
+#include "../include/UndueCommand.h"
+#include "../include/CommandButton.h"
+#include "../include/RedoCommand.h"
+#include "../include/BuildCommand"
+
 class Game
 {
 public:
@@ -24,6 +29,10 @@ private:
     bool m_isRunning;
     SDL_Event m_eventHandlder;
     std::vector<Button*> m_buttons;
+    std::vector<CommandButton*> m_commandButtons;
     TTF_Font* m_font;
     MacroCommand m_commands;
+    bool m_setUpText;
+    bool m_isBrickDrawable;
+    std::vector<Brick*> m_bricks;
 };

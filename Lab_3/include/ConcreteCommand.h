@@ -20,6 +20,8 @@ public:
     {
     }
 
+    virtual int getCount(){return m_counter;}
+
 private:
     ConcreteFactory m_concreteFactory;
 };

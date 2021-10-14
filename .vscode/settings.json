@@ -49,6 +49,8 @@
         "list": "cpp",
         "stack": "cpp",
         "unordered_map": "cpp",
-        "xhash": "cpp"
+        "xhash": "cpp",
+        "string": "cpp",
+        "buildcommand": "cpp"
     }
 }

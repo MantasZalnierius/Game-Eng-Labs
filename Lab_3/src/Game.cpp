@@ -22,12 +22,17 @@ Game::Game(const char* t_title, unsigned int t_x, unsigned int t_y, unsigned int
     m_buttons.push_back(new Button(m_renderer, m_font, "PLASTIC", 100, 400, 200, 200, new PlasticCommand() ));
     m_buttons.push_back(new Button(m_renderer, m_font, "CONCRETE", 400, 100, 200, 200, new ConcreteCommand()));
 
+    m_buttons.at(0)->setUpCounter(m_renderer, m_font, "0", 180, 300);
+    m_buttons.at(1)->setUpCounter(m_renderer, m_font, "0", 180, 600);
+    m_buttons.at(2)->setUpCounter(m_renderer, m_font, "0", 480, 300);
 
-    m_buttons.push_back(new Button(m_renderer, m_font, "UNDUE", 800, 100, 200, 200));
-    m_buttons.push_back(new Button(m_renderer, m_font, "REDUE", 800, 400, 200, 200));
-    m_buttons.push_back(new Button(m_renderer, m_font, "BUILD", 800, 700, 200, 200));
+    m_commandButtons.push_back(new CommandButton(m_renderer, m_font, "UNDU", 800, 100, 200, 200, new UndueCommand()));
+    m_commandButtons.push_back(new CommandButton(m_renderer, m_font, "REDU", 800, 400, 200, 200, new RedoCommand()));
+    m_commandButtons.push_back(new CommandButton(m_renderer, m_font, "BUILD", 800, 700, 200, 200, new BuildCommand()));
 
     m_isRunning = true;
+    m_setUpText = false;
+    m_isBrickDrawable = false;
 }
 
 void Game::handleEvents()
@@ -49,7 +54,31 @@ void Game::handleEvents()
                 {
                     if (m_eventHandlder.button.y > m_buttons.at(i)->getRect().y && m_eventHandlder.button.y < m_buttons.at(i)->getRect().y + m_buttons.at(i)->getRect().h)
                     {
-                        std::cout << "I AM HERE";
+                        m_buttons.at(i)->click(&m_commands);
+                    }
+                }
+            }
+
+            for(int i = 0; i < m_commandButtons.size(); i++)
+            {
+                if (m_eventHandlder.button.x > m_commandButtons.at(i)->getRect().x && m_eventHandlder.button.x < m_commandButtons.at(i)->getRect().x + m_commandButtons.at(i)->getRect().w)
+                {
+                    if (m_eventHandlder.button.y > m_commandButtons.at(i)->getRect().y && m_eventHandlder.button.y < m_commandButtons.at(i)->getRect().y + m_commandButtons.at(i)->getRect().h)
+                    {
+                        if(m_commandButtons.at(i)->getName() == "UNDU")
+                        {
+                            m_commandButtons.at(i)->clickUndu(&m_commands);
+                        }
+                        else if(m_commandButtons.at(i)->getName() == "REDU")
+                        {
+                            m_commandButtons.at(i)->clickRedu(&m_commands);
+                        }
+                        else if(m_commandButtons.at(i)->getName() == "BUILD")
+                        {
+                            m_commandButtons.at(i)->clickBuild(&m_commands, m_bricks);
+                            m_isBrickDrawable = true;
+                        }
+                        m_setUpText = true;
                     }
                 }
             }
@@ -62,6 +91,14 @@ void Game::update()
     while(this->isRunning())
     {
         this->handleEvents();
+        if(m_setUpText)
+        {
+            for(int i = 0; i < m_buttons.size(); i++)
+            {
+                m_buttons.at(i)->updateText();
+                m_setUpText = false;
+            }
+        }
         this->render();
     }
     this->cleanUp();
@@ -76,6 +113,20 @@ void Game::render()
     for(int i = 0; i < m_buttons.size(); i++)
     {
         m_buttons.at(i)->render();
+    }
+
+    for(int i = 0; i < m_commandButtons.size(); i++)
+    {
+        m_commandButtons.at(i)->render();
+    }
+
+    if(m_isBrickDrawable)
+    {
+        for(int i = 0; i < m_bricks.size(); i++)
+        {
+            std::cout << m_bricks.at(i)->getName() << " WAS CREATED" << std::endl;
+        }
+        m_isBrickDrawable = false;
     }
 
     SDL_RenderPresent(m_renderer);
