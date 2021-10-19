@@ -9,8 +9,8 @@
 #include "../include/UndueCommand.h"
 #include "../include/CommandButton.h"
 #include "../include/RedoCommand.h"
-#include "../include/BuildCommand"
-
+#include "../include/BuildCommand.h"
+#include "../include/ClayCommand.h"
 class Game
 {
 public:
@@ -33,6 +33,10 @@ private:
     TTF_Font* m_font;
     MacroCommand m_commands;
     bool m_setUpText;
-    bool m_isBrickDrawable;
+    bool m_brickIsCreated;
     std::vector<Brick*> m_bricks;
+    void setUpWindow(const char* t_title, unsigned int t_x, unsigned int t_y, unsigned int t_width, unsigned int t_height, Uint32 t_flags);
+    void setUpButtons();
+    void handleOrderButtons();
+    void handleActionButtons();
 };

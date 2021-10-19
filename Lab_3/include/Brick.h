@@ -37,3 +37,13 @@ public:
 private:
     std::string m_name;
 };
+
+class Clay : public Brick
+{
+public:
+    Clay() = default;
+    Clay(std::string t_name) : m_name(t_name) { }
+    std::string getName() {return m_name;}
+private:
+    std::string m_name;
+};

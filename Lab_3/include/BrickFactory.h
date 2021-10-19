@@ -31,3 +31,11 @@ public:
     virtual ~ConcreteFactory() {};
     Brick* CreateBrick() { return new Lego("CONCRETE");}
 };
+
+class ClayFactory : public Factory
+{
+public:
+    ClayFactory() = default;
+    virtual ~ClayFactory() {};
+    Brick* CreateBrick() { return new Lego("CLAY");}
+};

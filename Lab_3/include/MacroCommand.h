@@ -39,7 +39,6 @@ public:
     {
         if (m_removeCommandStack.size() > 0 )
         {
-            std::cout << "hi" << std::endl;
             m_CommandVector.push_back(m_removeCommandStack.top());
             m_removeCommandStack.top()->addOneCommand();
             m_removeCommandStack.pop();
