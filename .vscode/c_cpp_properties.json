@@ -3,7 +3,7 @@
         {
             "name": "Win32",
             "includePath": [
-                "${workspaceFolder}/**",
+                "${workspaceFolder}/Lab4/include/**",
                 "C:\\SDL2-devel-2.0.16-VC\\SDL2-2.0.16\\include"
             ],
             "defines": [
