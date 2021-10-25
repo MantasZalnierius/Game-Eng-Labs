@@ -23,187 +23,55 @@ Game::Game(const char* t_title, unsigned int t_x, unsigned int t_y, unsigned int
     SDL_Texture* tex = util::loadFromFile("include/assets/PlayerSpriteSheet.png", m_renderer);
     m_animatedSprite = AnimatedSprite(tex);
     m_player = Player(m_animatedSprite);
+
+    setUpCommands();
+}
+
+void Game::setUpCommands()
+{
+    m_deathCommand = new DiedPlayerCommand();
+    m_reviveCommand = new ReviviedPlayerCommand();
+    m_swordAttackCommand = new SwordAttackPlayerCommand();
+    m_throwAttackCommand = new ThrowAttackPlayerCommand();
+    m_runRightCommand = new RunRightPlayerCommand();
+    m_climbUpCommand = new ClimbUpPlayerCommand();
+    m_climbDownCommand = new ClimbDownPlayerCommand();
+    m_topOfLadderCommand = new TopOfLadderPlayerCommand();
+    m_bottomOfLadderCommand = new BottomOfLadderPlayerCommand();
+    m_slideCommand = new SlidePlayerCommand();
+    m_hitGroundCommand = new HitGroundPlayerCommand();
+    m_jumpCommand = new JumpPlayerCommand();
+    m_runRightStopCommand = new RunRightStopPlayerCommand();
+    m_throwStopCommand = new ThrowStopPlayerCommand();
+    m_swordStopCommand = new SwordStopPlayerCommand();
+    m_climbUpStopCommand = new ClimbUpStopPlayerCommand();
+    m_climbDownStopCommand = new ClimbDownStopPlayerCommand();
 }
 
 void Game::handleEvents()
 {
-   while(SDL_PollEvent( &m_eventHandlder ) != 0)
-   {
-       if(m_eventHandlder.type == SDL_KEYDOWN)
-       {
-           
-            if(m_eventHandlder.key.keysym.sym == SDLK_m)
+		SDL_Event eventHandlder;
+
+        while(SDL_PollEvent( &eventHandlder ) != 0)
+        {
+            switch (eventHandlder.type)
             {
-                m_isRunning = false;
-            }
-            if (m_eventHandlder.key.keysym.sym == SDLK_d) {
-                input.setCurrent(gpp::Events::Event::DIED_EVENT);
-            }
-            // Revieved Event
-            else if (m_eventHandlder.key.keysym.sym == SDLK_r) {
-                input.setCurrent(gpp::Events::Event::REVIVED_EVENT);
-            }
-            // Running attack
-            else if (m_eventHandlder.key.keysym.sym == SDLK_z
-                &&
-                m_eventHandlder.key.keysym.sym == SDLK_RIGHT
-                ||
-                m_eventHandlder.key.keysym.sym == SDLK_RIGHT
-                &&
-                m_eventHandlder.key.keysym.sym == SDLK_z
-                )
-            {
-                input.setCurrent(gpp::Events::Event::ATTACK_START_EVENT);
-            }
-            // Attack
-            else if (m_eventHandlder.key.keysym.sym == SDLK_z)
-            {
-                input.setCurrent(gpp::Events::Event::ATTACK_START_EVENT);
-            }
-            // Throw attack
-            else if (m_eventHandlder.key.keysym.sym == SDLK_d
-                &&
-                m_eventHandlder.key.keysym.sym == SDLK_RIGHT
-                ||
-                m_eventHandlder.key.keysym.sym == SDLK_RIGHT
-                &&
-                m_eventHandlder.key.keysym.sym == SDLK_x
-                )
-            {
-                input.setCurrent(gpp::Events::Event::THROW_START_EVENT);
-            }
-            // Throw Attack
-            else if (m_eventHandlder.key.keysym.sym == SDLK_x)
-            {
-                input.setCurrent(gpp::Events::Event::THROW_START_EVENT);
-            }
-            // Run Right
-            else if (m_eventHandlder.key.keysym.sym == SDLK_RIGHT)
-            {
-                input.setCurrent(gpp::Events::Event::RUN_RIGHT_START_EVENT);
-            }
-            // Climb Up
-            else if (m_eventHandlder.key.keysym.sym == SDLK_UP)
-            {
-                input.setCurrent(gpp::Events::Event::MOVE_UP_START_EVENT);
-            }
-            // Climb Down
-            else if (m_eventHandlder.key.keysym.sym == SDLK_DOWN)
-            {
-                input.setCurrent(gpp::Events::Event::MOVE_DOWN_START_EVENT);
-            }
-            // Hit Bottom of Ladder Event
-            else if (m_eventHandlder.key.keysym.sym == SDLK_c)
-            {
-                input.setCurrent(gpp::Events::Event::HIT_LADDER_BOTTOM_EVENT);
-            }
-            // Hit Top of Ladder Event
-            else if (m_eventHandlder.key.keysym.sym == SDLK_t)
-            {
-                input.setCurrent(gpp::Events::Event::HIT_LADDER_TOP_EVENT);
-            }
-            // Jump Run
-            if (m_eventHandlder.key.keysym.sym == SDLK_SPACE
-                &&
-                m_eventHandlder.key.keysym.sym == SDLK_RIGHT
-                ||
-                m_eventHandlder.key.keysym.sym == SDLK_RIGHT
-                &&
-                m_eventHandlder.key.keysym.sym == SDLK_SPACE
-                )
-            {
-                input.setCurrent(gpp::Events::Event::JUMP_UP_EVENT);
-            }
-            // Jump Event
-            else if (m_eventHandlder.key.keysym.sym == SDLK_SPACE)
-            {
-                input.setCurrent(gpp::Events::Event::JUMP_UP_EVENT);
-            }
-            // Running Slide
-            else if (m_eventHandlder.key.keysym.sym == SDLK_DOWN
-                && 
-                m_eventHandlder.key.keysym.sym == SDLK_RIGHT
-                ||
-                m_eventHandlder.key.keysym.sym == SDLK_RIGHT
-                && 
-                m_eventHandlder.key.keysym.sym == SDLK_DOWN
-                )
-            {
-                input.setCurrent(gpp::Events::Event::SLIDE_EVENT);
-            }
-            // Hit Ground Event
-            else if (m_eventHandlder.key.keysym.sym == SDLK_h)
-            {
-                input.setCurrent(gpp::Events::Event::HIT_GROUND_EVENT);
+
+            case SDL_KEYDOWN:
+            handleKeyPress(eventHandlder);
+            break;
+
+            case SDL_KEYUP:
+            handleKeyRelease(eventHandlder);
+            break;
+
+            default:
+                input.setCurrent(gpp::Events::Event::NONE);
+                break;
             }
 
-            // Jump Attack Event
-            else if (m_eventHandlder.key.keysym.sym == SDLK_h)
-            {
-                input.setCurrent(gpp::Events::Event::HIT_GROUND_EVENT);
-            }
-
-            // Jump Throw Attack Event
-            else if (m_eventHandlder.key.keysym.sym == SDLK_h)
-            {
-                input.setCurrent(gpp::Events::Event::HIT_GROUND_EVENT);
-            }
-       }
-       else if(m_eventHandlder.type == SDL_KEYUP)
-       {
-           if (m_eventHandlder.key.keysym.sym == SDLK_z
-                &&
-                m_eventHandlder.key.keysym.sym == SDLK_RIGHT)
-            {
-                input.setCurrent(gpp::Events::Event::RUN_RIGHT_START_EVENT);
-            }
-            // Stop Attack
-            else if (m_eventHandlder.key.keysym.sym == SDLK_z)
-            {
-                input.setCurrent(gpp::Events::Event::ATTACK_STOP_EVENT);
-            }
-            // Run and Stop Throw Attack
-            else if (m_eventHandlder.key.keysym.sym == SDLK_x
-                &&
-                m_eventHandlder.key.keysym.sym == SDLK_RIGHT)
-            {
-                input.setCurrent(gpp::Events::Event::RUN_RIGHT_START_EVENT);
-            }
-            // Stop Throw Attack
-            else if (m_eventHandlder.key.keysym.sym == SDLK_x)
-            {
-                input.setCurrent(gpp::Events::Event::THROW_STOP_EVENT);
-            }
-            // Stop Running Right
-            else if (m_eventHandlder.key.keysym.sym == SDLK_RIGHT)
-            {
-                input.setCurrent(gpp::Events::Event::RUN_RIGHT_STOP_EVENT);
-            }
-            // Stop Slide
-            else if (m_eventHandlder.key.keysym.sym == SDLK_DOWN
-                &&
-                m_eventHandlder.key.keysym.sym == SDLK_RIGHT)
-            {
-                input.setCurrent(gpp::Events::Event::RUN_RIGHT_START_EVENT);
-            }
-            // Stop Moving Up
-            else if (m_eventHandlder.key.keysym.sym == SDLK_UP)
-            {
-                input.setCurrent(gpp::Events::Event::MOVE_UP_STOP_EVENT);
-            }
-            // Stop Moving Down
-            else if (m_eventHandlder.key.keysym.sym == SDLK_DOWN)
-            {
-                input.setCurrent(gpp::Events::Event::MOVE_DOWN_STOP_EVENT);
-            }
-       }
-       else
-       {
-			input.setCurrent(gpp::Events::Event::NONE);
-       }
-
-       	m_player.handleInput(input);
-   }
+            m_player.handleInput(input);
+        }
 }
 
 void Game::update()
@@ -219,9 +87,9 @@ void Game::update()
 
 void Game::render()
 {
-    SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, 255);
+    SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
     SDL_RenderClear(m_renderer);
-    SDL_SetRenderDrawColor(m_renderer, 255,255,255,255);
+    SDL_SetRenderDrawColor(m_renderer, 0,0,0,255);
     m_player.getAnimatedSpriteFrame().render(0, 0, m_renderer);
     SDL_RenderPresent(m_renderer);
 }
@@ -253,5 +121,169 @@ void Game::setUpWindow(const char* t_title, unsigned int t_x, unsigned int t_y, 
 
     if (m_window == nullptr) {
      std::cout << "WINDOW IS NULL \n ERROR IS -> " << SDL_GetError();
+    }
+}
+
+void Game::handleKeyPress(SDL_Event& m_eventHandlder)
+{
+    if(m_eventHandlder.key.keysym.sym == SDLK_m)
+    {
+        m_isRunning = false;
+    }
+    if (m_eventHandlder.key.keysym.sym == SDLK_d) 
+    {
+        m_deathCommand->execute(input);
+    }
+    // Revieved Event
+    else if (m_eventHandlder.key.keysym.sym == SDLK_r) 
+    {
+        m_reviveCommand->execute(input);
+    }
+    // Running attack
+    else if (m_eventHandlder.key.keysym.sym == SDLK_z
+        &&
+        m_eventHandlder.key.keysym.sym == SDLK_RIGHT
+        ||
+        m_eventHandlder.key.keysym.sym == SDLK_RIGHT
+        &&
+        m_eventHandlder.key.keysym.sym == SDLK_z
+        )
+    {
+        m_swordAttackCommand->execute(input);
+    }
+    // Attack
+    else if (m_eventHandlder.key.keysym.sym == SDLK_z)
+    {
+        m_swordAttackCommand->execute(input);
+    }
+    // Throw attack
+    else if (m_eventHandlder.key.keysym.sym == SDLK_x
+        &&
+        m_eventHandlder.key.keysym.sym == SDLK_RIGHT
+        ||
+        m_eventHandlder.key.keysym.sym == SDLK_RIGHT
+        &&
+        m_eventHandlder.key.keysym.sym == SDLK_x
+        )
+    {
+        m_throwAttackCommand->execute(input);
+    }
+    // Throw Attack
+    else if (m_eventHandlder.key.keysym.sym == SDLK_x)
+    {
+        m_throwAttackCommand->execute(input);
+    }
+    // Run Right
+    else if (m_eventHandlder.key.keysym.sym == SDLK_RIGHT)
+    {
+        m_runRightCommand->execute(input);
+    }
+    // Climb Up
+    else if (m_eventHandlder.key.keysym.sym == SDLK_UP)
+    {
+        m_climbUpCommand->execute(input);
+    }
+    // Climb Down
+    else if (m_eventHandlder.key.keysym.sym == SDLK_DOWN)
+    {
+        m_climbDownCommand->execute(input);
+    }
+    // Hit Bottom of Ladder Event
+    else if (m_eventHandlder.key.keysym.sym == SDLK_c)
+    {
+        m_bottomOfLadderCommand->execute(input);
+    }
+    // Hit Top of Ladder Event
+    else if (m_eventHandlder.key.keysym.sym == SDLK_t)
+    {
+        m_topOfLadderCommand->execute(input);
+    }
+    // Jump Run
+    if (m_eventHandlder.key.keysym.sym == SDLK_SPACE
+        &&
+        m_eventHandlder.key.keysym.sym == SDLK_RIGHT
+        ||
+        m_eventHandlder.key.keysym.sym == SDLK_RIGHT
+        &&
+        m_eventHandlder.key.keysym.sym == SDLK_SPACE
+        )
+    {
+        m_jumpCommand->execute(input);
+    }
+    // Jump Event
+    else if (m_eventHandlder.key.keysym.sym == SDLK_SPACE)
+    {
+        m_jumpCommand->execute(input);
+    }
+    // Running Slide
+    else if (m_eventHandlder.key.keysym.sym == SDLK_DOWN)
+    {
+        m_slideCommand->execute(input);
+    }
+    // Hit Ground Event
+    else if (m_eventHandlder.key.keysym.sym == SDLK_h)
+    {
+        m_hitGroundCommand->execute(input);
+    }
+
+    // Jump Attack Event
+    else if (m_eventHandlder.key.keysym.sym == SDLK_h)
+    {
+        m_hitGroundCommand->execute(input);
+    }
+
+    // Jump Throw Attack Event
+    else if (m_eventHandlder.key.keysym.sym == SDLK_h)
+    {
+        m_hitGroundCommand->execute(input);
+    }
+}
+
+void Game::handleKeyRelease(SDL_Event& m_eventHandlder)
+{
+    if (m_eventHandlder.key.keysym.sym == SDLK_z
+    &&
+    m_eventHandlder.key.keysym.sym == SDLK_RIGHT)
+    {
+        m_runRightCommand->execute(input);
+    }
+    // Stop Attack
+    else if (m_eventHandlder.key.keysym.sym == SDLK_z)
+    {
+        m_swordStopCommand->execute(input);
+    }
+    // Run and Stop Throw Attack
+    else if (m_eventHandlder.key.keysym.sym == SDLK_x
+        &&
+        m_eventHandlder.key.keysym.sym == SDLK_RIGHT)
+    {
+        m_runRightCommand->execute(input);
+    }
+    // Stop Throw Attack
+    else if (m_eventHandlder.key.keysym.sym == SDLK_x)
+    {
+        m_throwStopCommand->execute(input);
+    }
+    // Stop Running Right
+    else if (m_eventHandlder.key.keysym.sym == SDLK_RIGHT)
+    {
+        m_runRightStopCommand->execute(input);
+    }
+    // Stop Slide
+    else if (m_eventHandlder.key.keysym.sym == SDLK_DOWN
+        ||
+        m_eventHandlder.key.keysym.sym == SDLK_RIGHT)
+    {
+        m_runRightStopCommand->execute(input);
+    }
+    // Stop Moving Up
+    else if (m_eventHandlder.key.keysym.sym == SDLK_UP)
+    {
+        m_climbUpStopCommand->execute(input);
+    }
+    // Stop Moving Down
+    else if (m_eventHandlder.key.keysym.sym == SDLK_DOWN)
+    {
+        m_climbDownStopCommand->execute(input);
     }
 }
