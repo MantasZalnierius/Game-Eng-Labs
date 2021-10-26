@@ -8,23 +8,20 @@ AnimatedSprite::AnimatedSprite() :
 	m_max_plays(0),
 	m_played(false)
 {
-	//DEBUG_MSG("AnimatedSprite()");
+	sdlDrawApi = new SdlDrawAPI();
 }
 
 AnimatedSprite::AnimatedSprite(SDL_Texture* t_texture) : AnimatedSprite(){
-	//DEBUG_MSG("AnimatedSprite(const Texture&)");
     m_texture = t_texture;
 }
 
 AnimatedSprite::AnimatedSprite(SDL_Texture* t_texture, const SDL_Rect& t_rect) : 
 	AnimatedSprite(t_texture)
 {
-	//DEBUG_MSG("AnimatedSprite(const Texture&, const IntRect&)");
 	m_frames.push_back(t_rect);
 }
 
 AnimatedSprite::~AnimatedSprite() {
-	//DEBUG_MSG("~AnimatedSprite()");
 }
 
 const Timer& AnimatedSprite::getClock() {
@@ -84,7 +81,7 @@ const bool AnimatedSprite::getPlayed() {
 void AnimatedSprite::render(int t_x, int t_y, SDL_Renderer* t_renderer)
 {
     SDL_Rect rect = {t_x, t_y, m_rectOfImage.w, m_rectOfImage.h};
-    SDL_RenderCopy(t_renderer, m_texture, &m_rectOfImage, &rect);
+	sdlDrawApi->drawSDLTexture(m_texture, rect, t_renderer, m_rectOfImage);
 }
 
 void AnimatedSprite::setTextureRect(SDL_Rect t_rectOfImage)

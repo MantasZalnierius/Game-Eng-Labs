@@ -5,6 +5,7 @@
 #include <SDL.h>
 #include <vector>
 #include "Timer.h"
+#include "DrawAPI.h"
 
 class AnimatedSprite {
 public:
@@ -41,5 +42,6 @@ private:
 	unsigned int m_max_plays;
 	bool m_played;
 	SDL_Rect m_rectOfImage;
+	DrawAPI* sdlDrawApi;
 };
 #endif
