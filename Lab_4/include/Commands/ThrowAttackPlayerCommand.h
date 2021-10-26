@@ -9,6 +9,7 @@ public:
     virtual ~ThrowAttackPlayerCommand() {}
     void execute(gpp::Events& t_event)
     {
+        std::cout << "EXECUTING THROW ATTACK COMMAND" << std::endl;
        t_event.setCurrent(gpp::Events::Event::THROW_START_EVENT);
     }
 };

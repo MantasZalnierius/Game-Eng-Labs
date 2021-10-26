@@ -2,6 +2,7 @@
 
 #include <vector>
 #include "Events.h"
+#include <iostream>
 
 class Command
 {

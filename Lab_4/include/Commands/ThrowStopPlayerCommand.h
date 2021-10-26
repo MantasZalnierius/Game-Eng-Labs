@@ -9,6 +9,7 @@ public:
     virtual ~ThrowStopPlayerCommand() {}
     void execute(gpp::Events& t_event)
     {
+       std::cout << "EXECUTING THROW ATTACK STOP COMMAND" << std::endl;
        t_event.setCurrent(gpp::Events::Event::THROW_STOP_EVENT);
     }
 };

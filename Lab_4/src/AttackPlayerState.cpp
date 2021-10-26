@@ -5,18 +5,22 @@
 #include "FSM/RunRightPlayerState.h"
 #include "FSM/IdlePlayerState.h"
 #include "FSM/DiedPlayerState.h"
+#include <iostream>
 
 PlayerState* AttackPlayerState::handleInput(gpp::Events& input)
 {
 	if (input.getCurrent() == gpp::Events::Event::RUN_RIGHT_START_EVENT)
 	{
+		std::cout << "SWORD ATTACK -> RUN RIGHT" << std::endl;
 		return new RunRightPlayerState();
 	}
 	else if (input.getCurrent() == gpp::Events::Event::ATTACK_STOP_EVENT)
 	{
+		std::cout << "SWORD ATTACK -> IDLE" << std::endl;
 		return new IdlePlayerState();
 	}
 	else if (input.getCurrent() == gpp::Events::Event::DIED_EVENT) {
+		std::cout << "SWORD ATTACK -> DEAD" << std::endl;
 		return new DiedPlayerState();
 	}
 	return nullptr;
@@ -24,6 +28,7 @@ PlayerState* AttackPlayerState::handleInput(gpp::Events& input)
 void AttackPlayerState::update(Player& player) {}
 void AttackPlayerState::enter(Player& player)
 {
+	std::cout << "ENTERING SOWRD ATTACK" << std::endl;
 	player.getAnimatedSprite().clearFrames();
 
 	player.getAnimatedSprite().addFrame(SDL_Rect{0, 0, 536, 495});
@@ -41,4 +46,5 @@ void AttackPlayerState::enter(Player& player)
 }
 void AttackPlayerState::exit(Player& player)
 {
+	std::cout << "LEAVING SWORD ATTACK " << std::endl;
 }

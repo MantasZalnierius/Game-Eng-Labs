@@ -4,11 +4,13 @@
 
 #include "FSM/DiedPlayerState.h"
 #include "FSM/IdlePlayerState.h"
+#include <iostream>
 
 PlayerState* RevivedPlayerState::handleInput(gpp::Events& input)
 {
 	if (input.getCurrent() == gpp::Events::Event::DIED_EVENT)
 	{
+		std::cout << "REVIVE -> DEAD" << std::endl;
 		return new DiedPlayerState();
 	}
 	return nullptr;
@@ -26,6 +28,7 @@ void RevivedPlayerState::update(Player& player) {
 }
 void RevivedPlayerState::enter(Player& player)
 {
+	std::cout << "ENTERING REVIVE" << std::endl;
 	// How long in State Clock
 	this->m_clock.restart();
 
@@ -53,6 +56,7 @@ void RevivedPlayerState::enter(Player& player)
 }
 void RevivedPlayerState::exit(Player& player)
 {
+	std::cout << "LEAVING REVIVE" << std::endl;
 	player.getAnimatedSprite().setPlayed(false);
 	player.getAnimatedSprite().setLooped(true);
 }

@@ -6,18 +6,22 @@
 #include "FSM/JumpAttackPlayerState.h"
 #include "FSM/JumpThrowAttackPlayerState.h"
 #include "FSM/GlidePlayerState.h"
+#include <iostream>
 
 PlayerState* JumpPlayerState::handleInput(gpp::Events& input)
 {
 	if (input.getCurrent() == gpp::Events::Event::DIED_EVENT) {
+		std::cout << "JUMP -> DEAD" << std::endl;
 		return new DiedPlayerState();
 	}
 	else if (input.getCurrent() == gpp::Events::Event::ATTACK_START_EVENT)
 	{
+		std::cout << "JUMP -> JUMP SWORD ATTACK" << std::endl;
 		return new JumpAttackPlayerState();
 	}
 	else if (input.getCurrent() == gpp::Events::Event::THROW_START_EVENT)
 	{
+		std::cout << "JUMP -> JUMP THROW ATTACK" << std::endl;
 		return new JumpThrowAttackPlayerState();
 	}
 	return nullptr;
@@ -34,6 +38,7 @@ void JumpPlayerState::update(Player& player) {
 }
 void JumpPlayerState::enter(Player& player)
 {
+	std::cout << "ENTERING JUMP" << std::endl;
 	player.getAnimatedSprite().clearFrames();
 
 	player.getAnimatedSprite().setPlayed(false);
@@ -54,6 +59,7 @@ void JumpPlayerState::enter(Player& player)
 }
 void JumpPlayerState::exit(Player& player)
 {
+	std::cout << "LEAVING JUMP" << std::endl;
 	player.getAnimatedSprite().setPlayed(false);
 	player.getAnimatedSprite().setLooped(true);
 }

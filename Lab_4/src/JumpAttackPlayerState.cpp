@@ -10,10 +10,12 @@
 PlayerState* JumpAttackPlayerState::handleInput(gpp::Events& input)
 {
 	if (input.getCurrent() == gpp::Events::Event::DIED_EVENT) {
+		std::cout << "JUMP SWORD ATTACK -> DEAD" << std::endl;
 		return new DiedPlayerState();
 	}
 	else if (input.getCurrent() == gpp::Events::Event::ATTACK_STOP_EVENT)
 	{
+		std::cout << "JUMP SWORD ATTACK -> GLIDE" << std::endl;
 		return new GlidePlayerState();
 	}
 	return nullptr;
@@ -21,6 +23,7 @@ PlayerState* JumpAttackPlayerState::handleInput(gpp::Events& input)
 void JumpAttackPlayerState::update(Player& player) {}
 void JumpAttackPlayerState::enter(Player& player)
 {
+	std::cout << "ENTERING JUMP SWORD ATTACK" << std::endl;
 	player.getAnimatedSprite().clearFrames();
 	player.getAnimatedSprite().addFrame(SDL_Rect{ 1329, 1992, 504, 522 });
 	player.getAnimatedSprite().addFrame(SDL_Rect{ 1851, 1992, 504, 522 });
@@ -37,4 +40,5 @@ void JumpAttackPlayerState::enter(Player& player)
 }
 void JumpAttackPlayerState::exit(Player& player)
 {
+	std::cout << "LEAVING JUMP SWORD ATTACK" << std::endl;
 }

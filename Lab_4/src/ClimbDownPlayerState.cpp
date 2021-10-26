@@ -4,16 +4,18 @@
 
 #include "FSM/ClimbPausePlayerState.h"
 #include "FSM/AccendLadderPlayerState.h"
-
+#include <iostream>
 
 PlayerState* ClimbDownPlayerState::handleInput(gpp::Events& input)
 {
 	if (input.getCurrent() == gpp::Events::Event::MOVE_DOWN_STOP_EVENT)
 	{
+		std::cout << "CLIMB DOWN -> CLIMB STOP" << std::endl;
 		return new ClimbPausePlayerState();
 	}
 	else if (input.getCurrent() == gpp::Events::Event::HIT_LADDER_BOTTOM_EVENT)
 	{
+		std::cout << "CLIMB DOWN -> BOTTOM OF LADDER" << std::endl;
 		return new AccendLadderPlayerState();
 	}
 	return nullptr;
@@ -21,6 +23,7 @@ PlayerState* ClimbDownPlayerState::handleInput(gpp::Events& input)
 void ClimbDownPlayerState::update(Player& player) {}
 void ClimbDownPlayerState::enter(Player& player)
 {
+	std::cout << "ENTERING CLIMB DOWN" << std::endl;
 	// Climb Down Animated Sprite
 	player.getAnimatedSprite().clearFrames();
 
@@ -39,4 +42,5 @@ void ClimbDownPlayerState::enter(Player& player)
 }
 void ClimbDownPlayerState::exit(Player& player) 
 {
+	std::cout << "LEAVING CLIMB DOWN" << std::endl;
 }

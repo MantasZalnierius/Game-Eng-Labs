@@ -9,6 +9,7 @@ public:
     virtual ~SlidePlayerCommand() {}
     void execute(gpp::Events& t_event)
     {
+        std::cout << "EXECUTING SLIDE COMMAND" << std::endl;
         t_event.setCurrent(gpp::Events::Event::SLIDE_EVENT);
     }
 };

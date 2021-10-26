@@ -2,11 +2,13 @@
 
 #include "FSM/DiedPlayerState.h"
 #include "FSM/RevivedPlayerState.h"
+#include <iostream>
 
 PlayerState* DiedPlayerState::handleInput(gpp::Events& input)
 {
 	if (input.getCurrent() == gpp::Events::Event::REVIVED_EVENT)
 	{
+		std::cout << "DEAD -> REVIVE" << std::endl;
 		return new RevivedPlayerState();
 	}
 	return nullptr;
@@ -14,6 +16,7 @@ PlayerState* DiedPlayerState::handleInput(gpp::Events& input)
 void DiedPlayerState::update(Player& player) {}
 void DiedPlayerState::enter(Player& player)
 {
+	std::cout << "ENTERING DEAD" << std::endl;
 	player.getAnimatedSprite().clearFrames();
 
 	player.getAnimatedSprite().setPlayed(false);
@@ -34,6 +37,7 @@ void DiedPlayerState::enter(Player& player)
 }
 void DiedPlayerState::exit(Player& player)
 {
+	std::cout << "LEAVIMG DEAD" << std::endl;
 	player.getAnimatedSprite().setPlayed(false);
 	player.getAnimatedSprite().setLooped(true);
 }

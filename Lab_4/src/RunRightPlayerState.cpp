@@ -16,31 +16,39 @@ PlayerState* RunRightPlayerState::handleInput(gpp::Events& input)
 {
 	if (input.getCurrent() == gpp::Events::Event::ATTACK_START_EVENT)
 	{
+		std::cout << "RUN RIGHT -> SWORD ATTACK" << std::endl;
 		return new AttackPlayerState();
 	}
 	if (input.getCurrent() == gpp::Events::Event::THROW_START_EVENT)
 	{
+		std::cout << "RUN RIGHT -> THORW ATTACK" << std::endl;
 		return new ThrowAttackPlayerState();
 	}
 	else if (input.getCurrent() == gpp::Events::Event::HIT_WALL_EVENT || input.getCurrent() == gpp::Events::Event::RUN_RIGHT_STOP_EVENT)
 	{
+		std::cout << "RUN RIGHT -> IDLE" << std::endl;
 		return new IdlePlayerState();
 	}
 	else if (input.getCurrent() == gpp::Events::Event::HIT_LADDER_BOTTOM_EVENT)
 	{
+		std::cout << "RUN RIGHT -> ACCEMD LADDER" << std::endl;
 		return new AccendLadderPlayerState();
 	}
 	else if (input.getCurrent() == gpp::Events::Event::HIT_LADDER_TOP_EVENT)
 	{
+		std::cout << "RUN RIGHT -> DECEND LADDER" << std::endl;
 		return new DecendLadderPlayerState();
 	}
 	else if (input.getCurrent() == gpp::Events::Event::JUMP_UP_EVENT) {
+		std::cout << "RUN RIGHT -> JUMP" << std::endl;
 		return new JumpPlayerState();
 	}
 	else if (input.getCurrent() == gpp::Events::Event::SLIDE_EVENT) {
+		std::cout << "RUN RIGHT -> SLIDE" << std::endl;
 		return new SlidePlayerState();
 	}
 	else if (input.getCurrent() == gpp::Events::Event::DIED_EVENT) {
+		std::cout << "RUN RIGHT -> DEAD" << std::endl;
 		return new DiedPlayerState();
 	}
 	return nullptr;
@@ -48,6 +56,7 @@ PlayerState* RunRightPlayerState::handleInput(gpp::Events& input)
 void RunRightPlayerState::update(Player& player) {}
 void RunRightPlayerState::enter(Player& player)
 {
+	std::cout << "ENTERING RUN RIGHT" << std::endl;
 	player.getAnimatedSprite().clearFrames();
 	player.getAnimatedSprite().addFrame(SDL_Rect{4986, 3556, 363, 458});
 	player.getAnimatedSprite().addFrame(SDL_Rect{5349, 3556, 363, 458});
@@ -64,4 +73,5 @@ void RunRightPlayerState::enter(Player& player)
 }
 void RunRightPlayerState::exit(Player& player) 
 {
+	std::cout << "LEAVING RUN RIGHT" << std::endl;
 }

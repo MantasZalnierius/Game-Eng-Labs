@@ -4,15 +4,18 @@
 
 #include "FSM/DiedPlayerState.h"
 #include "FSM/IdlePlayerState.h"
+#include <iostream>
 
 PlayerState* GlidePlayerState::handleInput(gpp::Events& input)
 {
 	if (input.getCurrent() == gpp::Events::Event::HIT_GROUND_EVENT)
 	{
+		std::cout << "GLIDE -> IDLE" << std::endl;
 		return new IdlePlayerState();
 	}
 	else if (input.getCurrent() == gpp::Events::Event::DIED_EVENT)
 	{
+		std::cout << "GLIDE -> DEAD" << std::endl;
 		return new DiedPlayerState();
 	}
 	return nullptr;
@@ -29,6 +32,7 @@ void GlidePlayerState::update(Player& player) {
 }
 void GlidePlayerState::enter(Player& player)
 {
+	std::cout << "ENTERING GLIDE" << std::endl;
 	player.getAnimatedSprite().clearFrames();
 
 	player.getAnimatedSprite().addFrame(SDL_Rect{0, 1992, 443, 454});
@@ -46,4 +50,5 @@ void GlidePlayerState::enter(Player& player)
 }
 void GlidePlayerState::exit(Player& player)
 {
+	std::cout << "LEAVING GLIDE" << std::endl;
 }

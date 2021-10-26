@@ -9,6 +9,7 @@ public:
     virtual ~JumpPlayerCommand() {}
     void execute(gpp::Events& t_event)
     {
+        std::cout << "EXECUTING JUMP COMMAND" << std::endl;
         t_event.setCurrent(gpp::Events::Event::JUMP_UP_EVENT);
     }
 };

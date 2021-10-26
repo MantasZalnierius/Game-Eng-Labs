@@ -179,12 +179,12 @@ void Game::handleKeyPress(SDL_Event& m_eventHandlder)
         m_runRightCommand->execute(input);
     }
     // Climb Up
-    else if (m_eventHandlder.key.keysym.sym == SDLK_UP)
+    else if (m_eventHandlder.key.keysym.sym == SDLK_w)
     {
         m_climbUpCommand->execute(input);
     }
     // Climb Down
-    else if (m_eventHandlder.key.keysym.sym == SDLK_DOWN)
+    else if (m_eventHandlder.key.keysym.sym == SDLK_s)
     {
         m_climbDownCommand->execute(input);
     }
@@ -277,12 +277,12 @@ void Game::handleKeyRelease(SDL_Event& m_eventHandlder)
         m_runRightStopCommand->execute(input);
     }
     // Stop Moving Up
-    else if (m_eventHandlder.key.keysym.sym == SDLK_UP)
+    else if (m_eventHandlder.key.keysym.sym == SDLK_w)
     {
         m_climbUpStopCommand->execute(input);
     }
     // Stop Moving Down
-    else if (m_eventHandlder.key.keysym.sym == SDLK_DOWN)
+    else if (m_eventHandlder.key.keysym.sym == SDLK_s)
     {
         m_climbDownStopCommand->execute(input);
     }
