@@ -53,7 +53,9 @@ PlayerState* RunRightPlayerState::handleInput(gpp::Events& input)
 	}
 	return nullptr;
 }
-void RunRightPlayerState::update(Player& player) {}
+void RunRightPlayerState::update(Player& player) {
+	player.moveRight(2);
+}
 void RunRightPlayerState::enter(Player& player)
 {
 	std::cout << "ENTERING RUN RIGHT" << std::endl;

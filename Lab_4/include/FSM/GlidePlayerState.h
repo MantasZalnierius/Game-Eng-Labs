@@ -14,6 +14,7 @@ public:
 private:
 	Timer m_clock;
     float m_timer;
+	bool isMovingInXAxis{false};
 };
 
 #endif

@@ -20,7 +20,12 @@ public:
 	void setAnimatedSprite(AnimatedSprite&);
 	PlayerState* getPlayerState();
 	void setPlayerState(PlayerState*);
-	void render(SDL_Renderer* t_renderer, int t_x, int t_y);
+	void render(SDL_Renderer* t_renderer);
+	void moveRight(int t_speed);
+	void jumpUp(int t_speed);
+	void fallingDown(int t_speed);
+	int m_x{0};
+    int m_y{300};
 };
 #endif
 

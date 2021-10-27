@@ -29,23 +29,43 @@ Game::Game(const char* t_title, unsigned int t_x, unsigned int t_y, unsigned int
 
 void Game::setUpCommands()
 {
-    m_commandMap.emplace("DEATH COMMAND", new DiedPlayerCommand());
-    m_commandMap.emplace("REVIVE COMMAND", new ReviviedPlayerCommand());
-    m_commandMap.emplace("SWORD ATTACK COMMAND", new SwordAttackPlayerCommand());
-    m_commandMap.emplace("THROW ATTACK COMMAND", new ThrowAttackPlayerCommand());
-    m_commandMap.emplace("RUN RIGHT COMMAND", new RunRightPlayerCommand());
-    m_commandMap.emplace("CLIMB UP COMMAND", new ClimbUpPlayerCommand());
-    m_commandMap.emplace("CLIMB DOWN COMMAND", new ClimbDownPlayerCommand());
-    m_commandMap.emplace("TOP OF LADDER COMMAND", new TopOfLadderPlayerCommand());
-    m_commandMap.emplace("BOTTOM OF LADDER COMMAND", new BottomOfLadderPlayerCommand());
-    m_commandMap.emplace("SLIDE COMMAND", new SlidePlayerCommand());
-    m_commandMap.emplace("HIT GROUND COMMAND", new HitGroundPlayerCommand());
-    m_commandMap.emplace("JUMP COMMAND", new JumpPlayerCommand());
-    m_commandMap.emplace("RUN RIGHT STOP COMMAND", new RunRightStopPlayerCommand());
-    m_commandMap.emplace("THROW ATTACK STOP COMMAND", new ThrowStopPlayerCommand());
-    m_commandMap.emplace("SWORD ATTACK STOP COMMAND", new SwordStopPlayerCommand());
-    m_commandMap.emplace("CLIMP UP STOP COMMAND", new ClimbUpStopPlayerCommand());
-    m_commandMap.emplace("CLIMB DOWN STOP COMMAND", new ClimbDownStopPlayerCommand());
+    // SETS UP ALL FACTORIES
+    m_commandFactoryMap.emplace("DEATH COMMAND FACTORY", new DiedCommandFactory());
+    m_commandFactoryMap.emplace("REVIVE COMMAND FACTORY", new ReviveCommandFactory());
+    m_commandFactoryMap.emplace("SWORD ATTACK COMMAND FACTORY", new SwordAttackCommandFactory());
+    m_commandFactoryMap.emplace("THROW ATTACK COMMAND FACTORY", new ThrowAttackCommandFactory());
+    m_commandFactoryMap.emplace("RUN RIGHT COMMAND FACTORY", new RunRightCommandFactory());
+    m_commandFactoryMap.emplace("CLIMB UP COMMAND FACTORY", new ClimbUpCommandFactory());
+    m_commandFactoryMap.emplace("CLIMB DOWN COMMAND FACTORY", new ClimbDownCommandFactory());
+    m_commandFactoryMap.emplace("TOP OF LADDER COMMAND FACTORY", new TopOfLadderCommandFactory());
+    m_commandFactoryMap.emplace("BOTTOM OF LADDER COMMAND FACTORY", new BottomOfLadderCommandFactory());
+    m_commandFactoryMap.emplace("SLIDE COMMAND FACTORY", new SlideCommandFactory());
+    m_commandFactoryMap.emplace("HIT GROUND COMMAND FACTORY", new HitGroundCommandFactory());
+    m_commandFactoryMap.emplace("JUMP COMMAND FACTORY", new JumpCommandFactory());
+    m_commandFactoryMap.emplace("RUN RIGHT STOP COMMAND FACTORY", new RunRightStopCommandFactory());
+    m_commandFactoryMap.emplace("THROW ATTACK STOP COMMAND FACTORY", new ThrowStopCommandFactory());
+    m_commandFactoryMap.emplace("SWORD ATTACK STOP COMMAND FACTORY", new SwordStopCommandFactory());
+    m_commandFactoryMap.emplace("CLIMP UP STOP COMMAND FACTORY", new ClimbUpStopCommandFactory());
+    m_commandFactoryMap.emplace("CLIMB DOWN STOP COMMAND FACTORY", new ClimbDownStopCommandFactory());
+
+    // SETS UP ALL COMMANDS
+    m_commandMap.emplace("DEATH COMMAND",                         m_commandFactoryMap.find("DEATH COMMAND FACTORY")->second->createCommand());
+    m_commandMap.emplace("REVIVE COMMAND",                       m_commandFactoryMap.find("REVIVE COMMAND FACTORY")->second->createCommand());
+    m_commandMap.emplace("SWORD ATTACK COMMAND",           m_commandFactoryMap.find("SWORD ATTACK COMMAND FACTORY")->second->createCommand());
+    m_commandMap.emplace("THROW ATTACK COMMAND",           m_commandFactoryMap.find("THROW ATTACK COMMAND FACTORY")->second->createCommand());
+    m_commandMap.emplace("RUN RIGHT COMMAND",                 m_commandFactoryMap.find("RUN RIGHT COMMAND FACTORY")->second->createCommand());
+    m_commandMap.emplace("CLIMB UP COMMAND",                   m_commandFactoryMap.find("CLIMB UP COMMAND FACTORY")->second->createCommand());
+    m_commandMap.emplace("CLIMB DOWN COMMAND",               m_commandFactoryMap.find("CLIMB DOWN COMMAND FACTORY")->second->createCommand());
+    m_commandMap.emplace("TOP OF LADDER COMMAND",         m_commandFactoryMap.find("TOP OF LADDER COMMAND FACTORY")->second->createCommand());
+    m_commandMap.emplace("BOTTOM OF LADDER COMMAND",   m_commandFactoryMap.find("BOTTOM OF LADDER COMMAND FACTORY")->second->createCommand());
+    m_commandMap.emplace("SLIDE COMMAND",                         m_commandFactoryMap.find("SLIDE COMMAND FACTORY")->second->createCommand());
+    m_commandMap.emplace("HIT GROUND COMMAND",               m_commandFactoryMap.find("HIT GROUND COMMAND FACTORY")->second->createCommand());
+    m_commandMap.emplace("JUMP COMMAND",                           m_commandFactoryMap.find("JUMP COMMAND FACTORY")->second->createCommand());
+    m_commandMap.emplace("RUN RIGHT STOP COMMAND",       m_commandFactoryMap.find("RUN RIGHT STOP COMMAND FACTORY")->second->createCommand());
+    m_commandMap.emplace("THROW ATTACK STOP COMMAND", m_commandFactoryMap.find("THROW ATTACK STOP COMMAND FACTORY")->second->createCommand());
+    m_commandMap.emplace("SWORD ATTACK STOP COMMAND", m_commandFactoryMap.find("SWORD ATTACK STOP COMMAND FACTORY")->second->createCommand());
+    m_commandMap.emplace("CLIMP UP STOP COMMAND",         m_commandFactoryMap.find("CLIMP UP STOP COMMAND FACTORY")->second->createCommand());
+    m_commandMap.emplace("CLIMB DOWN STOP COMMAND",     m_commandFactoryMap.find("CLIMB DOWN STOP COMMAND FACTORY")->second->createCommand());
 }
 
 
@@ -114,7 +134,7 @@ void Game::render()
     SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
     SDL_RenderClear(m_renderer);
     SDL_SetRenderDrawColor(m_renderer, 0,0,0,255);
-    m_player.getAnimatedSpriteFrame().render(0, 0, m_renderer);
+    m_player.render(m_renderer);
     SDL_RenderPresent(m_renderer);
 }
 

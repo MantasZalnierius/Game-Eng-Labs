@@ -9,6 +9,7 @@
 #include "Utility.h"
 #include "Events.h"
 #include "CommandIncludes.h"
+#include "CommandFactory.h"
 #include <map>
 
 class Game
@@ -37,9 +38,12 @@ private:
     AnimatedSprite m_animatedSprite;
     gpp::Events input;
 
+
     void handleKeyPress(SDL_Event& m_eventHandlder);
     void handleKeyRelease(SDL_Event& m_eventHandlder);
     void setUpCommands();
 
     std::map<std::string, Command*> m_commandMap;
+    std::map<std::string, Factory*> m_commandFactoryMap;
+
 };

@@ -18,9 +18,15 @@ PlayerState* GlidePlayerState::handleInput(gpp::Events& input)
 		std::cout << "GLIDE -> DEAD" << std::endl;
 		return new DiedPlayerState();
 	}
+	else if (input.getCurrent() == gpp::Events::Event::RUN_RIGHT_START_EVENT)
+	{
+		isMovingInXAxis = true;
+	}
 	return nullptr;
 }
 void GlidePlayerState::update(Player& player) {
+	if(isMovingInXAxis) { player.moveRight(2); }
+	player.fallingDown(2);
 	if (m_clock.getTimerAsSeconds() > 1.2f) {
 		PlayerState* temp = player.getPlayerState();
 		PlayerState* state = new IdlePlayerState();

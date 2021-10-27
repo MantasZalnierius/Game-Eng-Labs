@@ -24,9 +24,15 @@ PlayerState* JumpPlayerState::handleInput(gpp::Events& input)
 		std::cout << "JUMP -> JUMP THROW ATTACK" << std::endl;
 		return new JumpThrowAttackPlayerState();
 	}
+	else if (input.getCurrent() == gpp::Events::Event::RUN_RIGHT_START_EVENT)
+	{
+		isMovingInXAxis = true;
+	}
 	return nullptr;
 }
 void JumpPlayerState::update(Player& player) {
+	if(isMovingInXAxis) { player.moveRight(2); }
+	player.jumpUp(2);
 	if (m_clock.getTimerAsSeconds() > 1.2f) {
 		PlayerState* temp = player.getPlayerState();
 		PlayerState* state = new GlidePlayerState();

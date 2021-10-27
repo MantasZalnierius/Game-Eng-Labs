@@ -27,6 +27,7 @@ void SlidePlayerState::update(Player& player) {
 	// you may wish to stop the slide and have an appropriate
 	// state and animation at the end of the slide
 	// this was added so sliding does not go one indefinitely
+	player.moveRight(4);
 	if (m_clock.getTimerAsSeconds() > 2.0f) {
 		PlayerState* temp = player.getPlayerState();
 		PlayerState* state = new IdlePlayerState();

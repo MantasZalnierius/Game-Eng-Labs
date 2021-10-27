@@ -45,9 +45,24 @@ void Player::setAnimatedSprite(AnimatedSprite& animated_sprite) {
 
 PlayerState* Player::getPlayerState() { return this->m_state; }
 
-void Player::render(SDL_Renderer* t_renderer, int t_x, int t_y)
+void Player::render(SDL_Renderer* t_renderer)
 {
-	m_animated_sprite.render(t_x, t_y, t_renderer);
+	getAnimatedSpriteFrame().render(m_x, m_y, t_renderer);
 }
 
 void Player::setPlayerState(PlayerState* state) { this->m_state = state; }
+
+void Player::moveRight(int t_speed)
+{
+	m_x += 1 * t_speed;
+}
+
+void Player::jumpUp(int t_speed)
+{
+	m_y -= 1 * t_speed;
+}
+
+void Player::fallingDown(int t_speed)
+{
+	m_y += 1 * t_speed;
+}
