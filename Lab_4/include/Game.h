@@ -9,6 +9,7 @@
 #include "Utility.h"
 #include "Events.h"
 #include "CommandIncludes.h"
+#include <map>
 
 class Game
 {
@@ -21,7 +22,6 @@ public:
     bool isRunning();
     void cleanUp();
     void run();
-    void setUpTexture();
 private:
     ~Game();
 
@@ -31,31 +31,15 @@ private:
     bool m_setUpText;
     bool m_brickIsCreated;
     void setUpWindow(const char* t_title, unsigned int t_x, unsigned int t_y, unsigned int t_width, unsigned int t_height, Uint32 t_flags);
+
+    SDL_Texture* getTexture(const char* const t_path);
     Player m_player;
     AnimatedSprite m_animatedSprite;
     gpp::Events input;
 
-    // PLAYER COMMANDS
-    Command* m_deathCommand;
-    Command* m_swordAttackCommand;
-    Command* m_throwAttackCommand;
-    Command* m_reviveCommand;
-    Command* m_runRightCommand;
-    Command* m_climbUpCommand;
-    Command* m_climbDownCommand;
-    Command* m_topOfLadderCommand;
-    Command* m_bottomOfLadderCommand;
-    Command* m_slideCommand;
-    Command* m_jumpCommand;
-    Command* m_hitGroundCommand;
-    Command* m_swordStopCommand;
-    Command* m_throwStopCommand;
-    Command* m_runRightStopCommand;
-    Command* m_climbUpStopCommand;
-    Command* m_climbDownStopCommand;
-    // PLAYER COMMANDS
-
     void handleKeyPress(SDL_Event& m_eventHandlder);
     void handleKeyRelease(SDL_Event& m_eventHandlder);
     void setUpCommands();
+
+    std::map<std::string, Command*> m_commandMap;
 };

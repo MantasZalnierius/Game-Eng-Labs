@@ -20,7 +20,7 @@ Game::Game(const char* t_title, unsigned int t_x, unsigned int t_y, unsigned int
         // handle error
     }
 
-    SDL_Texture* tex = util::loadFromFile("include/assets/PlayerSpriteSheet.png", m_renderer);
+    SDL_Texture* tex = getTexture(PLAYER_SPRITES);
     m_animatedSprite = AnimatedSprite(tex);
     m_player = Player(m_animatedSprite);
 
@@ -29,23 +29,47 @@ Game::Game(const char* t_title, unsigned int t_x, unsigned int t_y, unsigned int
 
 void Game::setUpCommands()
 {
-    m_deathCommand = new DiedPlayerCommand();
-    m_reviveCommand = new ReviviedPlayerCommand();
-    m_swordAttackCommand = new SwordAttackPlayerCommand();
-    m_throwAttackCommand = new ThrowAttackPlayerCommand();
-    m_runRightCommand = new RunRightPlayerCommand();
-    m_climbUpCommand = new ClimbUpPlayerCommand();
-    m_climbDownCommand = new ClimbDownPlayerCommand();
-    m_topOfLadderCommand = new TopOfLadderPlayerCommand();
-    m_bottomOfLadderCommand = new BottomOfLadderPlayerCommand();
-    m_slideCommand = new SlidePlayerCommand();
-    m_hitGroundCommand = new HitGroundPlayerCommand();
-    m_jumpCommand = new JumpPlayerCommand();
-    m_runRightStopCommand = new RunRightStopPlayerCommand();
-    m_throwStopCommand = new ThrowStopPlayerCommand();
-    m_swordStopCommand = new SwordStopPlayerCommand();
-    m_climbUpStopCommand = new ClimbUpStopPlayerCommand();
-    m_climbDownStopCommand = new ClimbDownStopPlayerCommand();
+    m_commandMap.emplace("DEATH COMMAND", new DiedPlayerCommand());
+    m_commandMap.emplace("REVIVE COMMAND", new ReviviedPlayerCommand());
+    m_commandMap.emplace("SWORD ATTACK COMMAND", new SwordAttackPlayerCommand());
+    m_commandMap.emplace("THROW ATTACK COMMAND", new ThrowAttackPlayerCommand());
+    m_commandMap.emplace("RUN RIGHT COMMAND", new RunRightPlayerCommand());
+    m_commandMap.emplace("CLIMB UP COMMAND", new ClimbUpPlayerCommand());
+    m_commandMap.emplace("CLIMB DOWN COMMAND", new ClimbDownPlayerCommand());
+    m_commandMap.emplace("TOP OF LADDER COMMAND", new TopOfLadderPlayerCommand());
+    m_commandMap.emplace("BOTTOM OF LADDER COMMAND", new BottomOfLadderPlayerCommand());
+    m_commandMap.emplace("SLIDE COMMAND", new SlidePlayerCommand());
+    m_commandMap.emplace("HIT GROUND COMMAND", new HitGroundPlayerCommand());
+    m_commandMap.emplace("JUMP COMMAND", new JumpPlayerCommand());
+    m_commandMap.emplace("RUN RIGHT STOP COMMAND", new RunRightStopPlayerCommand());
+    m_commandMap.emplace("THROW ATTACK STOP COMMAND", new ThrowStopPlayerCommand());
+    m_commandMap.emplace("SWORD ATTACK STOP COMMAND", new SwordStopPlayerCommand());
+    m_commandMap.emplace("CLIMP UP STOP COMMAND", new ClimbUpStopPlayerCommand());
+    m_commandMap.emplace("CLIMB DOWN STOP COMMAND", new ClimbDownStopPlayerCommand());
+}
+
+
+SDL_Texture* Game::getTexture(const char* const t_path)
+{
+    SDL_Texture* newTexture{ NULL };
+
+    SDL_Surface* loadedSurface = IMG_Load(t_path);
+    if (loadedSurface == NULL)
+    {
+        std::cout << "EEROR LOADING FILE PATH IS WRONG" << std::endl << IMG_GetError(); 
+    }
+    else
+    {
+        newTexture = SDL_CreateTextureFromSurface(m_renderer, loadedSurface);
+        if (newTexture == NULL)
+        {
+            std::cout << "SOMETHING WRONG WITH TEXTURE" << std::endl << SDL_GetError(); 
+        }
+
+        SDL_FreeSurface(loadedSurface);
+    }
+
+    return newTexture;
 }
 
 void Game::handleEvents()
@@ -132,12 +156,12 @@ void Game::handleKeyPress(SDL_Event& m_eventHandlder)
     }
     if (m_eventHandlder.key.keysym.sym == SDLK_d) 
     {
-        m_deathCommand->execute(input);
+        m_commandMap.find("DEATH COMMAND")->second->execute(input);
     }
     // Revieved Event
     else if (m_eventHandlder.key.keysym.sym == SDLK_r) 
     {
-        m_reviveCommand->execute(input);
+        m_commandMap.find("REVIVE COMMAND")->second->execute(input);
     }
     // Running attack
     else if (m_eventHandlder.key.keysym.sym == SDLK_z
@@ -149,12 +173,12 @@ void Game::handleKeyPress(SDL_Event& m_eventHandlder)
         m_eventHandlder.key.keysym.sym == SDLK_z
         )
     {
-        m_swordAttackCommand->execute(input);
+        m_commandMap.find("SWORD ATTACK COMMAND")->second->execute(input);
     }
     // Attack
     else if (m_eventHandlder.key.keysym.sym == SDLK_z)
     {
-        m_swordAttackCommand->execute(input);
+        m_commandMap.find("SWORD ATTACK COMMAND")->second->execute(input);
     }
     // Throw attack
     else if (m_eventHandlder.key.keysym.sym == SDLK_x
@@ -166,37 +190,37 @@ void Game::handleKeyPress(SDL_Event& m_eventHandlder)
         m_eventHandlder.key.keysym.sym == SDLK_x
         )
     {
-        m_throwAttackCommand->execute(input);
+        m_commandMap.find("THROW ATTACK COMMAND")->second->execute(input);
     }
     // Throw Attack
     else if (m_eventHandlder.key.keysym.sym == SDLK_x)
     {
-        m_throwAttackCommand->execute(input);
+        m_commandMap.find("THROW ATTACK COMMAND")->second->execute(input);
     }
     // Run Right
     else if (m_eventHandlder.key.keysym.sym == SDLK_RIGHT)
     {
-        m_runRightCommand->execute(input);
+        m_commandMap.find("RUN RIGHT COMMAND")->second->execute(input);
     }
     // Climb Up
     else if (m_eventHandlder.key.keysym.sym == SDLK_w)
     {
-        m_climbUpCommand->execute(input);
+        m_commandMap.find("CLIMB UP COMMAND")->second->execute(input);
     }
     // Climb Down
     else if (m_eventHandlder.key.keysym.sym == SDLK_s)
     {
-        m_climbDownCommand->execute(input);
+        m_commandMap.find("CLIMB DOWN COMMAND")->second->execute(input);
     }
     // Hit Bottom of Ladder Event
     else if (m_eventHandlder.key.keysym.sym == SDLK_c)
     {
-        m_bottomOfLadderCommand->execute(input);
+        m_commandMap.find("BOTTOM OF LADDER COMMAND")->second->execute(input);
     }
     // Hit Top of Ladder Event
     else if (m_eventHandlder.key.keysym.sym == SDLK_t)
     {
-        m_topOfLadderCommand->execute(input);
+        m_commandMap.find("TOP OF LADDER COMMAND")->second->execute(input);
     }
     // Jump Run
     if (m_eventHandlder.key.keysym.sym == SDLK_SPACE
@@ -208,34 +232,34 @@ void Game::handleKeyPress(SDL_Event& m_eventHandlder)
         m_eventHandlder.key.keysym.sym == SDLK_SPACE
         )
     {
-        m_jumpCommand->execute(input);
+        m_commandMap.find("JUMP COMMAND")->second->execute(input);
     }
     // Jump Event
     else if (m_eventHandlder.key.keysym.sym == SDLK_SPACE)
     {
-        m_jumpCommand->execute(input);
+        m_commandMap.find("JUMP COMMAND")->second->execute(input);
     }
     // Running Slide
     else if (m_eventHandlder.key.keysym.sym == SDLK_DOWN)
     {
-        m_slideCommand->execute(input);
+        m_commandMap.find("SLIDE COMMAND")->second->execute(input);
     }
     // Hit Ground Event
     else if (m_eventHandlder.key.keysym.sym == SDLK_h)
     {
-        m_hitGroundCommand->execute(input);
+        m_commandMap.find("HIT GROUND COMMAND")->second->execute(input);
     }
 
     // Jump Attack Event
     else if (m_eventHandlder.key.keysym.sym == SDLK_h)
     {
-        m_hitGroundCommand->execute(input);
+       m_commandMap.find("HIT GROUND COMMAND")->second->execute(input);
     }
 
     // Jump Throw Attack Event
     else if (m_eventHandlder.key.keysym.sym == SDLK_h)
     {
-        m_hitGroundCommand->execute(input);
+        m_commandMap.find("HIT GROUND COMMAND")->second->execute(input);
     }
 }
 
@@ -245,45 +269,45 @@ void Game::handleKeyRelease(SDL_Event& m_eventHandlder)
     &&
     m_eventHandlder.key.keysym.sym == SDLK_RIGHT)
     {
-        m_runRightCommand->execute(input);
+        m_commandMap.find("RUN RIGHT COMMAND")->second->execute(input);
     }
     // Stop Attack
     else if (m_eventHandlder.key.keysym.sym == SDLK_z)
     {
-        m_swordStopCommand->execute(input);
+        m_commandMap.find("SWORD ATTACK STOP COMMAND")->second->execute(input);
     }
     // Run and Stop Throw Attack
     else if (m_eventHandlder.key.keysym.sym == SDLK_x
         &&
         m_eventHandlder.key.keysym.sym == SDLK_RIGHT)
     {
-        m_runRightCommand->execute(input);
+        m_commandMap.find("RUN RIGHT COMMAND")->second->execute(input);
     }
     // Stop Throw Attack
     else if (m_eventHandlder.key.keysym.sym == SDLK_x)
     {
-        m_throwStopCommand->execute(input);
+        m_commandMap.find("THROW ATTACK STOP COMMAND")->second->execute(input);
     }
     // Stop Running Right
     else if (m_eventHandlder.key.keysym.sym == SDLK_RIGHT)
     {
-        m_runRightStopCommand->execute(input);
+        m_commandMap.find("RUN RIGHT STOP COMMAND")->second->execute(input);
     }
     // Stop Slide
     else if (m_eventHandlder.key.keysym.sym == SDLK_DOWN
         ||
         m_eventHandlder.key.keysym.sym == SDLK_RIGHT)
     {
-        m_runRightStopCommand->execute(input);
+        m_commandMap.find("RUN RIGHT STOP COMMAND")->second->execute(input);
     }
     // Stop Moving Up
     else if (m_eventHandlder.key.keysym.sym == SDLK_w)
     {
-        m_climbUpStopCommand->execute(input);
+        m_commandMap.find("CLIMP UP STOP COMMAND")->second->execute(input);
     }
     // Stop Moving Down
     else if (m_eventHandlder.key.keysym.sym == SDLK_s)
     {
-        m_climbDownStopCommand->execute(input);
+        m_commandMap.find("CLIMB DOWN STOP COMMAND")->second->execute(input);
     }
 }
