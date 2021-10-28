@@ -24,8 +24,8 @@ public:
 	void moveRight(int t_speed);
 	void jumpUp(int t_speed);
 	void fallingDown(int t_speed);
-	int m_x{0};
-    int m_y{300};
+	float m_x{0};
+    float m_y{300};
 };
 #endif
 

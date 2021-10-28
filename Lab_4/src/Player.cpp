@@ -54,15 +54,15 @@ void Player::setPlayerState(PlayerState* state) { this->m_state = state; }
 
 void Player::moveRight(int t_speed)
 {
-	m_x += 1 * t_speed;
+	m_x += 0.005f * t_speed;
 }
 
 void Player::jumpUp(int t_speed)
 {
-	m_y -= 1 * t_speed;
+	m_y -= 0.005f * t_speed;
 }
 
 void Player::fallingDown(int t_speed)
 {
-	m_y += 1 * t_speed;
+	m_y += 0.005f * t_speed;
 }

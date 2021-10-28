@@ -22,6 +22,10 @@ PlayerState* GlidePlayerState::handleInput(gpp::Events& input)
 	{
 		isMovingInXAxis = true;
 	}
+		else if (input.getCurrent() == gpp::Events::Event::RUN_RIGHT_STOP_EVENT)
+	{
+		isMovingInXAxis = false;
+	}
 	return nullptr;
 }
 void GlidePlayerState::update(Player& player) {

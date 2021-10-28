@@ -78,9 +78,9 @@ const bool AnimatedSprite::getPlayed() {
 	return this->m_played;
 }
 
-void AnimatedSprite::render(int t_x, int t_y, SDL_Renderer* t_renderer)
+void AnimatedSprite::render(float t_x, float t_y, SDL_Renderer* t_renderer)
 {
-    SDL_Rect rect = {t_x, t_y, m_rectOfImage.w, m_rectOfImage.h};
+    SDL_FRect rect = {t_x, t_y, m_rectOfImage.w, m_rectOfImage.h};
 	sdlDrawApi->drawSDLTexture(m_texture, rect, t_renderer, m_rectOfImage);
 }
 

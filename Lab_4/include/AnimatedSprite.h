@@ -27,7 +27,7 @@ public:
 	const bool getPlayed();
 	void setTime(float t_timer);
 	void setTextureRect(SDL_Rect t_rect);
-	void render(int x, int y, SDL_Renderer* t_renderer);
+	void render(float x, float y, SDL_Renderer* t_renderer);
 	void update();
 	SDL_Texture* getTexture() {return m_texture;}
 	
