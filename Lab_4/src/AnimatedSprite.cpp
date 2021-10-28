@@ -80,7 +80,7 @@ const bool AnimatedSprite::getPlayed() {
 
 void AnimatedSprite::render(float t_x, float t_y, SDL_Renderer* t_renderer)
 {
-    SDL_FRect rect = {t_x, t_y, m_rectOfImage.w, m_rectOfImage.h};
+    SDL_FRect rect = {t_x, t_y, static_cast<float>(m_rectOfImage.w), static_cast<float>(m_rectOfImage.h)};
 	sdlDrawApi->drawSDLTexture(m_texture, rect, t_renderer, m_rectOfImage);
 }
 
